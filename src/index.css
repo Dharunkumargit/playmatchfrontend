@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
+@import "tailwindcss";
+
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@theme {
+
+ --color-light-orange : #FFF0D3;
+ --color-dark-grey : #7C7979;
+ --font-roboto-flex: 'Roboto Flex', sans-serif;
+ --color-dark-orange : #E9B32F;
+ --color-input-bordergrey: #D0D6FF;
+
+}
