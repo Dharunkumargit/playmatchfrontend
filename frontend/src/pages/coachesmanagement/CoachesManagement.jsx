@@ -14,7 +14,7 @@ import { API } from '../../../const';
 const CoachesManagement = () => {
   const [coaches, setCoaches] = useState([]);
     const Columns = [
-        { label: "Profile", key: "profilePicture" },
+        { label: "Profile ", key: "profilePicture" },
         { label: "Coach Name", key: "coachName" },
         { label: "Sports", key: "sports" },
         { label: "Assigned Classes", key: "assignedClasses" },
