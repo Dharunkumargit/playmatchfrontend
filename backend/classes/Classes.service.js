@@ -20,6 +20,9 @@ class ClassService {
       { new: true, runValidators: true }
     );
   }
+  static async deleteClass(id) {
+  return await Class.findByIdAndDelete(id);
+}
   static async addReview(classId, review) {
     return await Class.findByIdAndUpdate(
       classId,

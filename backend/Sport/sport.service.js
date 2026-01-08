@@ -33,11 +33,12 @@ export const updateSportById = async (id, payload) => {
   });
 };
 
-/* Soft delete (Inactive) */
-export const deactivateSport = async (id) => {
-  return await Sport.findByIdAndUpdate(
-    id,
-    { status: "inactive" },
-    { new: true }
-  );
+export const deleteSportById = async (id) => {
+  const sport = await Sport.findById(id);
+  if (!sport) throw new Error("Sport not found");
+
+  await Sport.findByIdAndDelete(id);
+  return sport;
 };
+
+/* Soft delete (Inactive) */

@@ -45,6 +45,7 @@ const schema = yup.object().shape({
       }
     ),
   priceperslot: yup.string().required("Price per Slot is required"),
+  location:yup.string().required("Location is required"),
   commissionpaid: yup.string().required("Commmission is required"),
   turfprofile : yup.string().required("Turf Profile is required"),
   status: yup
@@ -184,6 +185,13 @@ const AddTurf = ({ onclose }) => {
                 <InputField
                   label="Turf Profile"
                   name="turfprofile"
+                  register={register}
+                  errors={errors}
+                  placeholder="Type Here"
+                />
+                <InputField
+                  label="Location"
+                  name="location"
                   register={register}
                   errors={errors}
                   placeholder="Type Here"

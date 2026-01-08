@@ -52,15 +52,19 @@ export const updateSport = async (req, res) => {
   }
 };
 
-/* Deactivate sport */
-export const deactivateSport = async (req, res) => {
+export const deleteSport = async (req, res) => {
   try {
-    const sport = await SportService.deactivateSport(req.params.id);
+    const sport = await SportService.deleteSportById(req.params.id);
+
     res.status(200).json({
-      message: "Sport deactivated",
+      message: "Sport deleted successfully",
       data: sport,
     });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({
+      message: error.message,
+    });
   }
 };
+
+/* Deactivate sport */

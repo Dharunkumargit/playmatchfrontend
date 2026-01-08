@@ -59,6 +59,7 @@ const CoachesManagement = () => {
       ViewModel={true}
       DeleteModal={DeleteCoaches}
       routepoint="viewcoachmanagement"
+      onDeleted={fetchCoaches}
       />
     </div>
   )

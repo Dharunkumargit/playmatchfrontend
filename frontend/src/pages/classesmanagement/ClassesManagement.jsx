@@ -15,7 +15,7 @@ const ClassesManagement = () => {
   
     const Columns = [
         { label: "Classes Name", key: "classesname" },
-        { label: "Type", key: "type" },
+        // { label: "Type", key: "type" },
         { label: "Coach", key: "coach" },
         { label: "Price", key: "price" },
         { label: "Total Bookings", key: "totalbookings" },
@@ -50,7 +50,8 @@ const ClassesManagement = () => {
       EditModal={EditClass}
       ViewModel={true}
       DeleteModal={DeleteClasses}
-      routepoint="viewclassesmanagement"/>
+      routepoint="viewclassesmanagement"
+      onDeleted={fetchClasses}/>
     </div>
   )
 }

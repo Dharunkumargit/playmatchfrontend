@@ -39,6 +39,7 @@ const SportsCategory = () => {
         showviewButton={false}
         DeleteModal={DeleteSports}
         AddModal={AddNewSport}
+        onDeleted={fetchSports}
       />
     </div>
   );

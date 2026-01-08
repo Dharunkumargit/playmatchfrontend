@@ -10,6 +10,7 @@ import userroutes from './user/user.route.js'
 import coachroutes from "./coaches/Coach.routes.js"
 import signuproutes from "./signup/signup.routes.js"
 import sportroutes from "./Sport/sport.routes.js"
+import playerroutes from "./player/Player.route.js"
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -28,6 +29,7 @@ app.use("/user",userroutes)
 app.use("/coachmanagement",coachroutes)
 app.use("/signup",signuproutes)
 app.use("/sportmanagement",sportroutes)
+app.use("/playermanagement",playerroutes)
 
 
 

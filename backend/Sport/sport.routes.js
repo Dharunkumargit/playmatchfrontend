@@ -4,7 +4,8 @@ import {
   getAllSports,
   getActiveSports,
   updateSport,
-  deactivateSport,
+  deleteSport,
+  
 } from "../Sport/sport.controller.js";
 
 const router = express.Router();
@@ -13,7 +14,7 @@ const router = express.Router();
 router.post("/createsport", addSport);
 router.get("/getsport", getAllSports);
 router.put("/:id", updateSport);
-router.patch("/:id/deactivate", deactivateSport);
+router.delete("/deletesportbyid/:id", deleteSport);
 
 /* App */
 router.get("/getactivesport", getActiveSports);

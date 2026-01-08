@@ -30,6 +30,7 @@ const Table = ({
   ViewModel,
   DeleteModal,
   routepoint,
+  onDeleted,
   deleteroutepoint
 }) => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
@@ -259,7 +260,7 @@ const Table = ({
                                       state: { item },
                                     });
                                   } else {
-                                    setSelectedItem(true);
+                                    setSelectedItem(item);
                                     setShowDelete(true);
                                   }
                                 }}
@@ -307,7 +308,7 @@ const Table = ({
         <ViewModel onclose={() => setShowView(false)} item={selectedItem} />
       )}
       {DeleteModal && showDelete && (
-        <DeleteModal  onClose={() => setShowDelete(false)} item={selectedItem}  />
+        <DeleteModal  onClose={() => setShowDelete(false)} item={selectedItem} onDeleted={onDeleted} />
       )}
     </div>
   );

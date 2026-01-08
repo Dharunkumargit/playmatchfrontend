@@ -38,6 +38,21 @@ export const updateClassById = async (req, res) => {
     });
   }
 };
+export const deleteClassById = async (req, res) => {
+  try {
+    await ClassService.deleteClass(req.params.id);
+
+    res.status(200).json({
+      success: true,
+      message: "Class deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 export const addReview = async (req, res) => {
   const data = await ClassService.addReview(
     req.params.id,

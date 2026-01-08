@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { API } from "../../../const";
 
 
-const DeleteTurf = ({ onClose,refresh,turfid }) => {  
+const DeleteTurf = ({ onClose,refresh,item }) => {  
   const [checked, setChecked] = useState(false);
   const handleDelete = async (data) => {
     if (!checked) {
@@ -14,7 +14,7 @@ const DeleteTurf = ({ onClose,refresh,turfid }) => {
     }
 
     try {
-      await axios.delete(`${API}/turfmanagement/deleteturfbyid/${turfid}`);
+      await axios.delete(`${API}/turfmanagement/deleteturfbyid/${item._id}`,data);
       toast.success("Turf deleted successfully!");
 
       onClose();

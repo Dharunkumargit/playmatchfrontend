@@ -28,7 +28,6 @@ const schema = yup.object().shape({
   
   description: yup.string().required("Description is required"),
   
-  validity: yup.string().required("Validity is required"),
   status: yup.string().required("Status is required"),
 });
 

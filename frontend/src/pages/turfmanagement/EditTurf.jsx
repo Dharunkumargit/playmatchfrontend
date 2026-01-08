@@ -28,7 +28,7 @@ const schema = yup.object().shape({
   
   .oneOf(["30", "60", "90", "120"], "Invalid Slot Duration")
   .required("Slot Duration is required"),
-  timerange: yup.string()
+  timeRange: yup.string()
   .required("Time Range is required")
 
     .required("Time Range is required")
@@ -46,8 +46,11 @@ const schema = yup.object().shape({
       }
     ),
   priceperslot: yup.string().required("Price per Slot is required"),
+  location:yup.string().required("Location is required"),
+  totalrevenue: yup.string().required("Total Revenue is required"),
+  totalbookings: yup.string().required("Total Bookings is required"),
   commissionpaid: yup.string().required("Commmission is required"),
-  status: yup.string().required("Status is required"),
+  
   
   
 
@@ -55,7 +58,7 @@ const schema = yup.object().shape({
 
 
 
-const EditTurf = ({ onclose,data }) => {
+const EditTurf = ({ onclose,item }) => {
   
   const {
     register,
@@ -65,12 +68,28 @@ const EditTurf = ({ onclose,data }) => {
   } = useForm({
     resolver: yupResolver(schema),
   });
- 
-  
-  
+
+ useEffect(() => {
+  if (item) {
+    reset({
+      turfname: item.turfname || "",
+      turfowner: item.turfowner || "",
+      sports: item.sports || "",
+      address: item.address ,
+      slotduration: item.slotduration || "",
+      timeRange: item.timeRange || "",
+      priceperslot: item.priceperslot || "",
+      location: item.location || "",
+      totalrevenue: item.totalrevenue ,
+      totalbookings: item.totalbookings ,
+      commissionpaid: item.commissionpaid || "",
+    });
+  }
+}, [item, reset]);
+
   const onSubmit = async(data) => {
     try {
-      const response = await axios.put(`${API}/turfmanagement/updateturfbyid/${data._id}`, data);
+      const response = await axios.put(`${API}/turfmanagement/updateturfbyid/${item._id}`, data);
   
       toast.success("Turf Updated Successfully!");
       onclose();
@@ -82,7 +101,7 @@ const EditTurf = ({ onclose,data }) => {
 
   return (
     <div className="font-roboto-flex fixed inset-0 grid justify-center items-center backdrop-blur-xs backdrop-grayscale-50  drop-shadow-lg z-20">
-      <div className=" shadow-lg py-2  bg-white  rounded-md  max-w-md">
+      <div className=" shadow-lg py-2  bg-white  rounded-md lg:w-[900px] md:w-[900px] w-111">
         <div className="grid">
           <button
             onClick={onclose}
@@ -95,7 +114,7 @@ const EditTurf = ({ onclose,data }) => {
           </h1>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className=" px-6 py-6">
-              <div className=" lg:space-y-3 space-y-3">
+              <div className=" grid grid-cols-1 md:grid-cols-2 gap-4">
                 <InputField
                   label="Turf Name"
                 
@@ -116,19 +135,12 @@ const EditTurf = ({ onclose,data }) => {
                 />
                 <InputField
                   label="Sports"
-                  type="select"
+              
                   name="sports"
                   placeholder="Type Here"
                   register={register}
                   errors={errors}
-                  options={[
-                    {
-                      value: "Football",
-                      label: " Football",
-                    },
-                    { value: "Cricket", label: "Cricket" },
-                    { value: "Hockey", label: "Hockey" },
-                  ]}
+                  
                 />
                 <InputField
                   label="Address"
@@ -156,7 +168,7 @@ const EditTurf = ({ onclose,data }) => {
                 <InputField
                   label="Time Range"
                   type="text"
-                  name="timerange"
+                  name="timeRange"
                   placeholder="e.g. 09:00 - 12:00"
                   register={register}
                   errors={errors}
@@ -179,9 +191,25 @@ const EditTurf = ({ onclose,data }) => {
                   placeholder="Type Here"
                 />
                  <InputField
-                  label="Status"
+                  label="Location"
                 
-                  name="status"
+                  name="location"
+                  register={register}
+                  errors={errors}
+                  placeholder="Type Here"
+                />
+                <InputField
+                  label="Total Bookings"
+                
+                  name="totalbookings"
+                  register={register}
+                  errors={errors}
+                  placeholder="Type Here"
+                />
+                <InputField
+                  label="Total Revenue"
+                
+                  name="totalrevenue" 
                   register={register}
                   errors={errors}
                   placeholder="Type Here"

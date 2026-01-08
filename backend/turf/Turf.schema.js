@@ -46,7 +46,7 @@ const TurfSchema = new mongoose.Schema(
       type: String
     },
     slots: [SlotSchema],
-
+    location: {type:String},
     priceperslot: { type: Number, required: true },
 
     maxPlayers: { type: Number, default: 10 },

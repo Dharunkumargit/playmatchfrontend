@@ -4,6 +4,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { IoClose } from "react-icons/io5";
 import { InputField } from "../../components/InputField";
+import { API } from "../../../const";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 
 
@@ -42,18 +45,35 @@ const schema = yup.object().shape({
 
 
 
-const AddPlayer = ({ onclose }) => {
+const AddPlayer = ({ onclose,refresh }) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data) => {
-    console.log("Form Data:", data);
-    // onclose();
+  const onSubmit = async (data) => {
+    try {
+      const payload = {
+        ...data,
+        totalbookings: Number(data.totalbookings),
+        totalspend: Number(data.totalspend),
+      };
+
+      await axios.post(`${API}/playermanagement/createplayer`, payload);
+
+      toast.success("Player added successfully 🎉");
+      reset();
+      refresh?.();   // table reload
+      onclose();
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.message || "Something went wrong"
+      );
+    }
   };
 
   return (
