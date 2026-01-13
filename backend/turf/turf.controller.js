@@ -1,5 +1,5 @@
 import * as TurfService from "../turf/turf.service.js";
-
+import { getFavoriteTurfIds } from "../favorite/Favorite.service.js";
 export const createTurf = async (req, res) => {
   try {
     const newTurf = await TurfService.createTurf(req.body);
@@ -11,8 +11,19 @@ export const createTurf = async (req, res) => {
 
 export const getTurfs = async (req, res) => {
   try {
+    const userId = req.query.userId;
+
     const turfs = await TurfService.getAllTurfs();
-    res.status(200).json({ success: true, data: turfs });
+    const favoriteIds = userId
+      ? await getFavoriteTurfIds(userId)
+      : [];
+
+    const result = turfs.map(turf => ({
+      ...turf.toObject(),
+      isFavorite: favoriteIds.includes(turf._id.toString()),
+    }));
+
+    res.status(200).json({ success: true, data: result });
   } catch (err) {
     res.status(500).json({ success: false, message: "Failed to fetch turfs" });
   }

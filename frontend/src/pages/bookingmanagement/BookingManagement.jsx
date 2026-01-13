@@ -3,6 +3,8 @@ import Table from '../../components/Table'
 import { bookingmanagementdata } from '../../components/Data';
 import ViewBookingManagement from './ViewBookingManagement';
 import DeleteBooking from './DeleteBooking';
+import AddBookings from './AddBookings';
+import { BookImageIcon } from 'lucide-react';
 
 const BookingManagement = () => {
     const Columns = [
@@ -24,7 +26,10 @@ const BookingManagement = () => {
       showEditButton={false}
       ViewModel={ViewBookingManagement}
       DeleteModal={DeleteBooking}
-      routepoint={"viewbookingmanagement"}/>
+      routepoint={"viewbookingmanagement"}
+      addButtonLabel="Add Bookings"
+      addButtonIcon={<BookImageIcon size={22} />}
+      AddModal={AddBookings} />
       
     </div>
   )

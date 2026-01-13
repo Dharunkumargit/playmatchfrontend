@@ -29,21 +29,18 @@ const schema = yup.object().shape({
   timerange: yup
     .string()
     .required("Time Range is required")
-
-    .required("Time Range is required")
-    .matches(
-      /^([01]\d|2[0-3]):([0-5]\d)\s*-\s*([01]\d|2[0-3]):([0-5]\d)$/,
-      "Time Range must be in HH:mm - HH:mm format"
+    .oneOf(
+      [
+        "10:00am - 11:30am",
+        "11:30am - 01:00pm",
+        "01:00pm - 02:30pm",
+        "02:30pm - 04:00pm",
+        "04:00pm - 05:30pm",
+        "05:30pm - 07:00pm",
+        "07:00pm - 08:30pm",
+      ]
     )
-    .test(
-      "start-before-end",
-      "Start time must be before end time",
-      function (value) {
-        if (!value) return false;
-        const [start, end] = value.split("-").map((t) => t.trim());
-        return start < end;
-      }
-    ),
+    .required("Time Range is required"),
   priceperslot: yup.string().required("Price per Slot is required"),
   location:yup.string().required("Location is required"),
   commissionpaid: yup.string().required("Commmission is required"),
@@ -148,11 +145,21 @@ const AddTurf = ({ onclose }) => {
 
                 <InputField
                   label="Time Range"
-                  type="text"
+                  type="select"
                   name="timerange"
-                  placeholder="e.g. 09:00 - 12:00"
+                  placeholder="Select Time Range"
                   register={register}
                   errors={errors}
+                  options={[
+                    { value: "10:00am - 11:30am", label: "10:00am - 11:30am" },
+                    { value: "11:30am - 01:00pm", label: "11:30am - 01:00pm" },
+                    { value: "01:00pm - 02:30pm", label: "01:00pm - 02:30pm" },
+                    { value: "02:30pm - 04:00pm", label: "02:30pm - 04:00pm" },
+                    { value: "04:00pm - 05:30pm", label: "04:00pm - 05:30pm" },
+                    { value: "05:30pm - 07:00pm", label: "05:30pm - 07:00pm" },
+                    { value: "07:00pm - 08:30pm", label: "07:00pm - 08:30pm" },
+                    
+                  ]}
                 />
                 <InputField
                   label="Price per Slot"

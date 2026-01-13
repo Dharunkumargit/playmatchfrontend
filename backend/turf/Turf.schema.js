@@ -1,14 +1,6 @@
 import mongoose from "mongoose";
 
-const SlotSchema = new mongoose.Schema(
-  {
-    startTime: String,
-    endTime: String,
-    price: Number,
-    isBooked: { type: Boolean, default: false },
-  },
-  { _id: false }
-);
+
 
 const TurfSchema = new mongoose.Schema(
   {
@@ -45,7 +37,7 @@ const TurfSchema = new mongoose.Schema(
     turfprofile : {
       type: String
     },
-    slots: [SlotSchema],
+    
     location: {type:String},
     priceperslot: { type: Number, required: true },
 
