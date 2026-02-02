@@ -1,22 +1,53 @@
+// services/booking.service.js
 import Booking from "../booking/Booking.schema.js";
-import Turf from "../turf/Turf.schema.js";
+import { v4 as uuidv4 } from "uuid";
 
 export const createBooking = async (data) => {
-  const booking = await Booking.create(data);
-
-  // Update turf stats
-  await Turf.findByIdAndUpdate(data.turfId, {
-    $inc: {
-      totalbookings: 1,
-      totalrevenue: data.amount,
-    },
+  return await Booking.create({
+    bookingId: `BOOK-${uuidv4().slice(0, 8)}`,
+    ...data,
   });
-
-  return booking;
 };
 
+/* Confirm booking after payment success */
+export const confirmBooking = async (bookingId) => {
+  return await Booking.findByIdAndUpdate(
+    bookingId,
+    {
+      status: "CONFIRMED",
+      paymentStatus: "SUCCESS",
+    },
+    { new: true }
+  );
+};
+
+/* Cancel booking */
+export const cancelBooking = async (bookingId) => {
+  return await Booking.findByIdAndUpdate(
+    bookingId,
+    { status: "CANCELLED" },
+    { new: true }
+  );
+};
+
+/* User bookings: Upcoming & History */
 export const getUserBookings = async (userId) => {
-  return await Booking.find({ userId })
-    .populate("turfId")
-    .sort({ bookingDate: -1 });
+  const now = new Date();
+
+  const bookings = await Booking.find({
+    user: userId,
+    status: "CONFIRMED",
+  }).sort({ bookingDate: -1 });
+
+  return {
+    upcoming: bookings.filter(b => b.bookingDate > now),
+    history: bookings.filter(b => b.bookingDate <= now),
+  };
+};
+
+/* Admin booking management table */
+export const getAllBookings = async () => {
+  return await Booking.find()
+    .populate("user turf")
+    .sort({ createdAt: -1 });
 };

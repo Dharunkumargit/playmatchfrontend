@@ -1,61 +1,67 @@
+// models/Booking.model.js
 import mongoose from "mongoose";
 
-const BookingSchema = new mongoose.Schema(
+const bookingSchema = new mongoose.Schema(
   {
     bookingId: {
       type: String,
+      required: true,
       unique: true,
-      default: () => new mongoose.Types.ObjectId().toString(),
     },
 
-    userId: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "signup",
       required: true,
     },
 
-    turfId: {
+    turf: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Turf",
+      ref: "turf",
       required: true,
     },
 
-    sport: String,
+    sportType: {
+      type: String,
+      enum: ["Football", "Cricket", "Tennis", "Basketball"],
+      required: true,
+    },
 
     bookingDate: {
       type: Date,
       required: true,
     },
 
-    slot: {
-      start: String,
-      end: String,
+    timeSlot: {
+      type: String, // "10:00 AM - 11:00 AM"
+      required: true,
     },
 
-    amount: Number,
+    amount: {
+      type: Number,
+      required: true,
+    },
+
+    commission: {
+      type: Number,
+      default: 0,
+    },
+
+    status: {
+      type: String,
+      enum: ["PENDING", "CONFIRMED", "CANCELLED"],
+      default: "PENDING",
+    },
 
     paymentStatus: {
       type: String,
-      enum: ["Pending", "Paid", "Failed"],
-      default: "Pending",
+      enum: ["PENDING", "SUCCESS", "FAILED"],
+      default: "PENDING",
     },
-
-    bookingStatus: {
-      type: String,
-      enum: ["Confirmed", "Cancelled", "Completed"],
-      default: "Confirmed",
-    },
-
-    playerType: {
-      type: String,
-      enum: ["Book Alone", "Find Players"],
-    },
-
-    playersRequired: Number,
   },
   { timestamps: true }
 );
 
-const Booking = mongoose.model("Booking", BookingSchema);
+const Booking = mongoose.model("Booking", bookingSchema);
 
-export default Booking;     
+export default Booking;

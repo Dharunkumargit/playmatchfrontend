@@ -16,17 +16,24 @@ const schema = yup.object().shape({
     .required("Classes Name is required"),
   coach: yup
     .string()
-    
+
     .required("Coach is required"),
   duration: yup
     .string()
-    
+
     .required("Duration is required"),
   price: yup.string().required("Price is required"),
   commissionearned: yup.string().required("Commmission is required"),
   classprofile: yup.string().required("Class Profile is required"),
   description: yup.string().required("Description is required"),
   location: yup.string().required("location is required"),
+  date: yup.string().required("Date is required"),
+  slottimings: yup
+    .string()
+    .required("Slot Timings is required"),
+  timerange: yup
+    .string()
+    .required("Time Range is required"),
   validity: yup.string().required("Validity is required"),
   status: yup.string().required("Status is required"),
 });
@@ -40,10 +47,13 @@ const AddClass = ({ onclose }) => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = async(data) => {
+  const onSubmit = async (data) => {
     try {
-      const response = await axios.post(`${API}/classesmanagement/createclass`, data);
-  
+      const response = await axios.post(
+        `${API}/classesmanagement/createclass`,
+        data
+      );
+
       toast.success("Turf Created Successfully!");
       onclose();
       console.log(response.data);
@@ -64,114 +74,148 @@ const AddClass = ({ onclose }) => {
           </button>
           <h1 className="text-center font-medium text-2xl py-2">Add Class</h1>
           <form onSubmit={handleSubmit(onSubmit)}>
-  <div className="px-6 py-6">
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      
-      <InputField
-        label="Classes Name"
-        name="classesname"
-        placeholder="Type Here"
-        register={register}
-        errors={errors}
-      />
+            <div className="px-6 py-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <InputField
+                  label="Classes Name"
+                  name="classesname"
+                  placeholder="Type Here"
+                  register={register}
+                  errors={errors}
+                />
 
-      <InputField
-        label="Coach"
-        name="coach"
-        placeholder="Type Here"
-        register={register}
-        errors={errors}
-      />
+                <InputField
+                  label="Coach"
+                  name="coach"
+                  placeholder="Type Here"
+                  register={register}
+                  errors={errors}
+                />
 
-      <InputField
-        label="Duration"
-        name="duration"
-        placeholder="Type Here"
-        register={register}
-        errors={errors}
-      />
+                <InputField
+                  label="Duration"
+                  name="duration"
+                  placeholder="Type Here"
+                  register={register}
+                  errors={errors}
+                />
 
-      <InputField
-        label="Price"
-        name="price"
-        placeholder="Type Here"
-        register={register}
-        errors={errors}
-      />
+                <InputField
+                  label="Price"
+                  name="price"
+                  placeholder="Type Here"
+                  register={register}
+                  errors={errors}
+                />
 
-      <InputField
-        label="Commission (%)"
-        name="commissionearned"
-        placeholder="Type Here"
-        register={register}
-        errors={errors}
-      />
+                <InputField
+                  label="Commission (%)"
+                  name="commissionearned"
+                  placeholder="Type Here"
+                  register={register}
+                  errors={errors}
+                />
 
-      <InputField
-        label="Location"
-        name="location"
-        placeholder="Type Here"
-        register={register}
-        errors={errors}
-      />
+                <InputField
+                  label="Location"
+                  name="location"
+                  placeholder="Type Here"
+                  register={register}
+                  errors={errors}
+                />
 
-      <InputField
-        label="Validity"
-        name="validity"
-        placeholder="Type Here"
-        register={register}
-        errors={errors}
-      />
+                <InputField
+                  label="Validity"
+                  name="validity"
+                  placeholder="Type Here"
+                  register={register}
+                  errors={errors}
+                />
 
-      <InputField
-        label="Status"
-        name="status"
-        placeholder="Type Here"
-        register={register}
-        errors={errors}
-      />
-      <InputField
-        label="Classes Profile"
-        name="classprofile"
-        placeholder="Type Here"
-        register={register}
-        errors={errors}
-      />
-      
-      {/* FULL WIDTH */}
-      
-        <InputField
-          label="Description"
-          type="textarea"
-          name="description"
-          placeholder="Type Here"
-          register={register}
-          errors={errors}
-        />
-        
-        
-  
+                <InputField
+                  label="Status"
+                  name="status"
+                  placeholder="Type Here"
+                  register={register}
+                  errors={errors}
+                />
+                <InputField
+                  label="Date"
+                  name="date"
+                  type="date"
+                  placeholder="Type Here"
+                  register={register}
+                  errors={errors}
+                />
+                <InputField
+                  label="Slot Timings"
+                  name="slottimings"
+                  type="select"
+                  placeholder="Type Here"
+                  register={register}
+                  errors={errors}
+                  options={[
+                    { value: "30", label: "30 Minutes" },
+                    { value: "60", label: "60 Minutes" },
+                    { value: "90", label: "90 Minutes" },
+                    { value: "120", label: "120 Minutes" },
+                  ]}
+                />
 
-    </div>
-  </div>
+                <InputField
+                  label="Time Range"
+                  type="select"
+                  name="timerange"
+                  placeholder="Select Time Range"
+                  register={register}
+                  errors={errors}
+                  options={[
+                    { value: "10:00am - 11:30am", label: "10:00am - 11:30am" },
+                    { value: "11:30am - 01:00pm", label: "11:30am - 01:00pm" },
+                    { value: "01:00pm - 02:30pm", label: "01:00pm - 02:30pm" },
+                    { value: "02:30pm - 04:00pm", label: "02:30pm - 04:00pm" },
+                    { value: "04:00pm - 05:30pm", label: "04:00pm - 05:30pm" },
+                    { value: "05:30pm - 07:00pm", label: "05:30pm - 07:00pm" },
+                    { value: "07:00pm - 08:30pm", label: "07:00pm - 08:30pm" },
+                  ]}
+                />
+                <InputField
+                  label="Classes Profile"
+                  name="classprofile"
+                  placeholder="Type Here"
+                  register={register}
+                  errors={errors}
+                />
 
-  <div className="mx-5 text-xs flex justify-end gap-2 mb-4">
-    <button
-      type="button"
-      onClick={onclose}
-      className="border border-darkest-blue text-darkest-blue px-6 py-2 rounded"
-    >
-      Cancel
-    </button>
-    <button
-      type="submit"
-      className="px-6 bg-dark-orange text-black rounded"
-    >
-      Save
-    </button>
-  </div>
-</form>
+                {/* FULL WIDTH */}
 
+                <InputField
+                  label="Description"
+                  type="textarea"
+                  name="description"
+                  placeholder="Type Here"
+                  register={register}
+                  errors={errors}
+                />
+              </div>
+            </div>
+
+            <div className="mx-5 text-xs flex justify-end gap-2 mb-4">
+              <button
+                type="button"
+                onClick={onclose}
+                className="border border-darkest-blue text-darkest-blue px-6 py-2 rounded"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="px-6 bg-dark-orange text-black rounded"
+              >
+                Save
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

@@ -1,57 +1,44 @@
-import * as BookingService from "../booking/Booking.service.js";
+// controllers/booking.controller.js
+import * as bookingService from "../booking/Booking.service.js";
 
-export const proceedToPay = async (req, res) => {
+export const createBooking = async (req, res) => {
   try {
-    // SLOT LOCK (optional Redis in prod)
-    res.status(200).json({
-      success: true,
-      message: "Proceed to payment",
-    });
+    const booking = await bookingService.createBooking(req.body);
+    res.status(201).json(booking);
   } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
-export const confirmPaymentAndBook = async (req, res) => {
+export const getMyBookings = async (req, res) => {
   try {
-    const booking = await BookingService.createBooking({
-      ...req.body,
-      paymentStatus: "Paid",
-      bookingStatus: "Confirmed",
-    });
-
-    res.status(201).json({
-      success: true,
-      message: "Booking Confirmed",
-      data: booking,
-    });
+    const data = await bookingService.getUserBookings(req.user.id);
+    res.json(data);
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
-export const myBookings = async (req, res) => {
+
+
+
+
+/* Cancel booking */
+export const cancelBooking = async (req, res) => {
   try {
-    const bookings = await BookingService.getUserBookings(req.params.userId);
-
-    const now = new Date();
-
-    const upcoming = bookings.filter(
-      b => new Date(b.bookingDate) >= now && b.bookingStatus === "Confirmed"
-    );
-
-    const history = bookings.filter(
-      b => new Date(b.bookingDate) < now || b.bookingStatus === "Completed"
-    );
-
-    res.status(200).json({
-      success: true,
-      data: {
-        upcoming,
-        history,
-      },
-    });
+    const booking = await bookingService.cancelBooking(req.params.id);
+    res.json(booking);
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    res.status(500).json({ message: err.message });
+  }
+};
+
+/* Admin Booking Management */
+export const getAllBookings = async (req, res) => {
+  try {
+    const bookings = await bookingService.getAllBookings();
+    res.json(bookings);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
